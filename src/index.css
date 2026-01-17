@@ -11,9 +11,52 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Custom scrollbar for better mobile experience */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Ensure charts are responsive */
+.recharts-wrapper {
+  margin: 0 auto !important;
+  max-width: 100%;
+}
+
+.recharts-surface {
+  overflow: visible;
+}
+
+/* Mobile touch improvements */
+@media (max-width: 640px) {
+  button, a, select {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
