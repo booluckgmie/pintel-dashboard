@@ -135,14 +135,37 @@ const PetronasIntelDashboard = () => {
     return topics;
   };
 
-  const networkData = [];
+  // Create network data with proper aggregation
+  const networkMap = new Map();
   categorizedData.forEach(item => {
     const topics = getTopics(item.title);
     for (let i = 0; i < topics.length; i++) {
       for (let j = i + 1; j < topics.length; j++) {
-        networkData.push({ x: topics[i], y: topics[j], z: 1 });
+        const key = `${topics[i]}-${topics[j]}`;
+        const reverseKey = `${topics[j]}-${topics[i]}`;
+        const existingKey = networkMap.has(key) ? key : reverseKey;
+        
+        if (networkMap.has(existingKey)) {
+          networkMap.set(existingKey, networkMap.get(existingKey) + 1);
+        } else {
+          networkMap.set(key, 1);
+        }
       }
     }
+  });
+
+  // Convert to array format for bubble chart
+  const networkData = Array.from(networkMap.entries()).map(([key, count]) => {
+    const [topic1, topic2] = key.split('-');
+    return { 
+      topic1, 
+      topic2, 
+      value: count,
+      // Add numeric coordinates for scatter plot
+      x: Object.keys(topicKeywords).indexOf(topic1),
+      y: Object.keys(topicKeywords).indexOf(topic2),
+      z: count * 100 // Size of bubble
+    };
   });
 
   // Strategic insights
@@ -207,26 +230,36 @@ const PetronasIntelDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            PETRONAS MI Dashboard
+            PETRONAS Market Intelligence Dashboard
           </h1>
           <p className="text-sm sm:text-base text-gray-300">Advanced Analytics & Strategic Insights</p>
         </header>
 
         {/* Navigation Tabs */}
         <div className="flex gap-2 mb-4 sm:mb-6 flex-wrap overflow-x-auto pb-2">
-          {['overview', 'analytics', 'network', 'insights', 'timeline'].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition whitespace-nowrap text-sm sm:text-base ${
-                activeTab === tab
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
+          {[
+            { id: 'overview', icon: Target, label: 'Overview' },
+            { id: 'analytics', icon: TrendingUp, label: 'Analytics' },
+            { id: 'network', icon: Network, label: 'Network' },
+            { id: 'insights', icon: Brain, label: 'Insights' },
+            { id: 'timeline', icon: Calendar, label: 'Timeline' }
+          ].map(tab => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition whitespace-nowrap text-sm sm:text-base ${
+                  activeTab === tab.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                }`}
+              >
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Overview Tab */}
@@ -339,7 +372,7 @@ const PetronasIntelDashboard = () => {
               <span className="text-sm sm:text-2xl">Topic Co-occurrence Network</span>
             </h2>
             <p className="text-sm sm:text-base text-gray-300 mb-4">
-              This visualization shows how different topics appear together in news articles, revealing strategic connections and emerging patterns.
+              Bubble size represents the frequency of topics appearing together in news articles.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-6">
               {Object.keys(topicKeywords).map((topic, idx) => (
@@ -353,15 +386,61 @@ const PetronasIntelDashboard = () => {
                 </div>
               ))}
             </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <ScatterChart>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis type="category" dataKey="x" stroke="#888" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
-                <YAxis type="category" dataKey="y" stroke="#888" tick={{ fontSize: 10 }} width={80} />
-                <Tooltip contentStyle={{ backgroundColor: '#1f2937', border: 'none', fontSize: '12px' }} />
-                <Scatter data={networkData} fill="#3b82f6" />
-              </ScatterChart>
-            </ResponsiveContainer>
+            
+            {networkData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={400}>
+                <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                  <XAxis 
+                    type="number" 
+                    dataKey="x" 
+                    stroke="#888" 
+                    tick={{ fontSize: 10 }}
+                    domain={[0, Object.keys(topicKeywords).length - 1]}
+                    ticks={Object.keys(topicKeywords).map((_, i) => i)}
+                    tickFormatter={(value) => Object.keys(topicKeywords)[value] || ''}
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                  />
+                  <YAxis 
+                    type="number" 
+                    dataKey="y" 
+                    stroke="#888" 
+                    tick={{ fontSize: 10 }}
+                    domain={[0, Object.keys(topicKeywords).length - 1]}
+                    ticks={Object.keys(topicKeywords).map((_, i) => i)}
+                    tickFormatter={(value) => Object.keys(topicKeywords)[value] || ''}
+                    width={80}
+                  />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#1f2937', border: 'none', fontSize: '12px' }}
+                    cursor={{ strokeDasharray: '3 3' }}
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const data = payload[0].payload;
+                        return (
+                          <div className="bg-gray-900 p-3 rounded border border-blue-500">
+                            <p className="font-bold text-white">{data.topic1} ↔ {data.topic2}</p>
+                            <p className="text-blue-400">Co-occurrences: {data.value}</p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Scatter 
+                    data={networkData} 
+                    fill="#3b82f6"
+                    shape="circle"
+                  />
+                </ScatterChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="text-center text-gray-400 py-8">
+                No topic co-occurrences found in current data
+              </div>
+            )}
           </div>
         )}
 
