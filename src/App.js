@@ -230,7 +230,7 @@ const PetronasIntelDashboard = () => {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            PETRONAS Market Intelligence Dashboard
+            Market Intelligence Dashboard
           </h1>
           <p className="text-sm sm:text-base text-gray-300">Advanced Analytics & Strategic Insights</p>
         </header>
