@@ -3,9 +3,42 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="PETRONAS MI Dashboard" />
+    <meta name="theme-color" content="#050c1a" />
+    <meta name="description" content="PPETRONAS Market Intelligence Dashboard" />
     <title>PETRONAS MI Dashboard</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+ 
+    <!-- Tailwind Play CDN (v3) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              petronas: {
+                DEFAULT: '#00a19c',
+                50:  '#e6f7f7',
+                100: '#cceeee',
+                200: '#99dcdb',
+                300: '#66cbc9',
+                400: '#33b9b6',
+                500: '#00a19c',
+                600: '#00817d',
+                700: '#00615e',
+                800: '#00413f',
+                900: '#002020',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
