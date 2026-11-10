@@ -78,10 +78,10 @@ const FALLBACK_BASE = {
   source: 'embedded-fallback',
   overall_sentiment: 'cautiously_optimistic',
   overall_score: 64,
-  summary: 'PETRONAS sustains its dual mandate of upstream excellence and energy transition acceleration. Recent coverage shows positive momentum in renewables and international expansion, tempered by commodity price volatility and maintenance cycles.',
+  summary: 'The company sustains its dual mandate of upstream excellence and energy transition acceleration. Recent coverage shows positive momentum in renewables and international expansion, tempered by commodity price volatility and maintenance cycles.',
   signals: [
     { dimension: 'Energy Transition', score: 72, direction: 'positive',
-      analysis: 'Hydrogen, solar, and EV coverage signals accelerating clean energy pivot with PETRONAS green portfolio on track.' },
+      analysis: 'Hydrogen, solar, and EV coverage signals accelerating clean energy pivot with the green portfolio on track.' },
     { dimension: 'Market Position',   score: 60, direction: 'neutral',
       analysis: 'Core gas/LNG business remains resilient while the chemical segment faces scheduled maintenance headwinds.' },
     { dimension: 'International',     score: 68, direction: 'positive',
@@ -254,7 +254,7 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
         <Activity size={14} color="#00a19c" />
       </div>
       <div>
-        <div className="text-xs font-bold text-white leading-none tracking-wide">PETRONAS</div>
+        <div className="text-xs font-bold text-white leading-none tracking-wide">PIntel</div>
         <div className="text-xs mt-0.5" style={{ color:'#4b5563' }}>Intel Dashboard</div>
       </div>
     </div>
@@ -456,7 +456,7 @@ export default function PetronasIntelDashboard() {
       style={{ background:'linear-gradient(135deg,#040710 0%,#06101e 100%)' }}>
       <div className="w-12 h-12 rounded-full border-2 animate-spin"
         style={{ borderColor:'rgba(0,161,156,0.2)', borderTopColor:'#00a19c' }} />
-      <p className="text-sm" style={{ color:'#4b5563' }}>Loading PETRONAS Intelligence Data…</p>
+      <p className="text-sm" style={{ color:'#4b5563' }}>Loading Market Intelligence Data…</p>
     </div>
   );
 
@@ -507,7 +507,7 @@ export default function PetronasIntelDashboard() {
               style={{ background:'rgba(0,161,156,0.18)' }}>
               <Activity size={12} color="#00a19c" />
             </div>
-            <span className="text-xs font-bold text-white">PETRONAS</span>
+            <span className="text-xs font-bold text-white">PIntel</span>
           </div>
 
           {/* Page title */}
