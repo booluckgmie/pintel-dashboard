@@ -16,7 +16,7 @@ import {
 import Papa from 'papaparse';
 
 // ── Config ─────────────────────────────────────────────────────────────────
-const DATA_URL   = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/petronasGAlerts2025.csv';
+const DATA_URL   = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/marketGAlerts2025.csv';
 const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const GROQ_KEY   = process.env.REACT_APP_GROQ_API_KEY || '';
@@ -64,7 +64,7 @@ const TOPIC_KW = {
   'Gas/LNG':   ['gas','lng','pipeline','upstream'],
   'Renewable': ['solar','hydrogen','green','renewable','ev','electric'],
   'Chemicals': ['chemical','polymer','butac','pchem'],
-  'Malaysia':  ['malaysia','malaysian','petronas'],
+  'Malaysia':  ['malaysia','malaysian'],
   'Finance':   ['market','stock','investment','epf','dividend'],
   'Global':    ['brazil','australia','georgia','international'],
 };
@@ -174,7 +174,7 @@ async function generateInsight(articles) {
     .join('\n');
 
   const prompt =
-`Analyse PETRONAS market intelligence and return ONLY valid JSON.
+`Analyse the market intelligence for a single company from the news below and return ONLY valid JSON. Refer to the company only as "the company" and never use its name.
 
 Data: ${articles.length} articles | ${range} | ${catSummary}
 
@@ -325,7 +325,7 @@ const BottomNav = ({ activeTab, setActiveTab }) => (
 );
 
 // ── Main dashboard ─────────────────────────────────────────────────────────
-export default function PetronasIntelDashboard() {
+export default function MarketIntelDashboard() {
   const [data,           setData]           = useState([]);
   const [loading,        setLoading]        = useState(true);
   const [error,          setError]          = useState(null);
@@ -599,7 +599,7 @@ export default function PetronasIntelDashboard() {
                     ) : insight ? (
                       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
                         transition={{ delay:0.15 }}
-                        className="glass-card p-5 lg:col-span-2 flex flex-col cursor-pointer hover:border-petronas-500/30 transition-all"
+                        className="glass-card p-5 lg:col-span-2 flex flex-col cursor-pointer hover:border-brand-500/30 transition-all"
                         onClick={() => setActiveTab('insights')}>
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">
