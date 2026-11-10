@@ -254,7 +254,7 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
         <Activity size={14} color="#00a19c" />
       </div>
       <div>
-        <div className="text-xs font-bold text-white leading-none tracking-wide">PETRONAS</div>
+        <div className="text-xs font-bold text-white leading-none tracking-wide">Market Intel</div>
         <div className="text-xs mt-0.5" style={{ color:'#4b5563' }}>Intel Dashboard</div>
       </div>
     </div>
@@ -456,7 +456,7 @@ export default function PetronasIntelDashboard() {
       style={{ background:'linear-gradient(135deg,#040710 0%,#06101e 100%)' }}>
       <div className="w-12 h-12 rounded-full border-2 animate-spin"
         style={{ borderColor:'rgba(0,161,156,0.2)', borderTopColor:'#00a19c' }} />
-      <p className="text-sm" style={{ color:'#4b5563' }}>Loading PETRONAS Intelligence Data…</p>
+      <p className="text-sm" style={{ color:'#4b5563' }}>Loading Market Intelligence Data…</p>
     </div>
   );
 
@@ -507,7 +507,7 @@ export default function PetronasIntelDashboard() {
               style={{ background:'rgba(0,161,156,0.18)' }}>
               <Activity size={12} color="#00a19c" />
             </div>
-            <span className="text-xs font-bold text-white">PETRONAS</span>
+            <span className="text-xs font-bold text-white">Market Intel</span>
           </div>
 
           {/* Page title */}
