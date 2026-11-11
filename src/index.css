@@ -13,77 +13,75 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #050c1a;
-  color: #e2e8f0;
+  background: #f1f5f9;
+  color: #0f172a;
 }
 
 #root {
   min-height: 100vh;
   width: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
-/* ── Glassmorphism ──────────────────────────────────── */
+/* ── Light glass cards — white on slate with subtle depth ───────── */
 .glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .glass-hover:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 161, 156, 0.4);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 1.25rem;
-  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
-}
- 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
- 
-.glass-strong {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
- 
-/* ── Accent glow ────────────────────────────────────── */
-.teal-glow {
-  box-shadow: 0 0 20px rgba(0, 161, 156, 0.25);
-}
- 
-.teal-glow-sm {
-  box-shadow: 0 0 10px rgba(0, 161, 156, 0.2);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-/* ── Custom scrollbar ───────────────────────────────── */
+.glass-card:hover {
+  border-color: rgba(0, 161, 156, 0.3);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+.glass-strong {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* ── Accent glow (toned down for light bg) ──────────────────────── */
+.teal-glow {
+  box-shadow: 0 0 20px rgba(0, 161, 156, 0.15);
+}
+
+.teal-glow-sm {
+  box-shadow: 0 0 10px rgba(0, 161, 156, 0.12);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(15, 23, 42, 0.03);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 42, 0.2);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
- background: rgba(0, 161, 156, 0.5);
+  background: rgba(0, 161, 156, 0.6);
 }
 
-/* ── Recharts overrides ─────────────────────────────── */
+/* ── Recharts overrides (light theme, visible grid + labels) ───── */
 .recharts-wrapper {
   margin: 0 auto !important;
   max-width: 100%;
@@ -93,29 +91,40 @@ body {
 }
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: rgba(255, 255, 255, 0.05) !important;
+  stroke: rgba(15, 23, 42, 0.08) !important;
+}
+.recharts-cartesian-axis-line {
+  stroke: rgba(15, 23, 42, 0.12) !important;
+}
+.recharts-cartesian-axis-tick-line {
+  stroke: rgba(15, 23, 42, 0.12) !important;
 }
 .recharts-legend-item-text {
-  color: #9ca3af !important;
+  color: #475569 !important;
 }
- 
-/* ── Tab indicator ──────────────────────────────────── */
+.recharts-polar-grid-angle line,
+.recharts-polar-grid-concentric-circle,
+.recharts-polar-grid-concentric-polygon {
+  stroke: rgba(15, 23, 42, 0.1) !important;
+}
+
+/* ── Active tab chip ────────────────────────────────────────────── */
 .tab-active {
-  background: rgba(0, 161, 156, 0.15);
+  background: rgba(0, 161, 156, 0.12);
   border-color: rgba(0, 161, 156, 0.4);
-  color: #2dd4bf;
+  color: #0d9488;
 }
- 
-/* ── Score bar base ─────────────────────────────────── */
+
+/* ── Score bar track ────────────────────────────────────────────── */
 .score-track {
   height: 6px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.08);
   border-radius: 999px;
   overflow: hidden;
   margin-top: 8px;
 }
- 
-/* ── Shimmer loading ────────────────────────────────── */
+
+/* ── Shimmer loading ────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
@@ -123,15 +132,15 @@ body {
 .shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0.03) 25%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.03) 75%
+    rgba(15, 23, 42, 0.04) 25%,
+    rgba(15, 23, 42, 0.08) 50%,
+    rgba(15, 23, 42, 0.04) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.6s infinite;
 }
 
-/* ── Pulse dot ──────────────────────────────────────── */
+/* ── Pulse dot ──────────────────────────────────────────────────── */
 @keyframes pulse-ring {
   0%   { transform: scale(1); opacity: 0.8; }
   100% { transform: scale(2); opacity: 0; }
@@ -144,8 +153,8 @@ body {
   background: #00a19c;
   animation: pulse-ring 1.5s ease-out infinite;
 }
- 
-/* ── Mobile touch targets ───────────────────────────── */
+
+/* ── Mobile touch targets ───────────────────────────────────────── */
 @media (max-width: 640px) {
   button, a, select {
     min-height: 40px;

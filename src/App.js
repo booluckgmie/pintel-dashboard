@@ -30,21 +30,22 @@ const GROQ_KEY   = process.env.REACT_APP_GROQ_API_KEY || '';
 const CACHE_VER  = 1;
 
 // ── Palettes ───────────────────────────────────────────────────────────────
+// Category text colors are darkened to meet WCAG AA on #ffffff cards.
 const CAT = {
-  'Energy & Gas':  { text: '#f59e0b', bg: 'rgba(245,158,11,0.12)',  dot: '#f59e0b' },
-  'Chemicals':     { text: '#a78bfa', bg: 'rgba(139,92,246,0.12)',  dot: '#8b5cf6' },
-  'Renewables':    { text: '#34d399', bg: 'rgba(16,185,129,0.12)',  dot: '#10b981' },
-  'Sponsorship':   { text: '#f87171', bg: 'rgba(239,68,68,0.12)',   dot: '#ef4444' },
-  'Financial':     { text: '#38bdf8', bg: 'rgba(14,165,233,0.12)',  dot: '#0ea5e9' },
-  'International': { text: '#2dd4bf', bg: 'rgba(0,161,156,0.12)',   dot: '#00a19c' },
-  'Other':         { text: '#9ca3af', bg: 'rgba(107,114,128,0.12)', dot: '#6b7280' },
+  'Energy & Gas':  { text: '#b45309', bg: 'rgba(245,158,11,0.14)',  dot: '#d97706' },
+  'Chemicals':     { text: '#6d28d9', bg: 'rgba(139,92,246,0.14)',  dot: '#8b5cf6' },
+  'Renewables':    { text: '#047857', bg: 'rgba(16,185,129,0.14)',  dot: '#10b981' },
+  'Sponsorship':   { text: '#b91c1c', bg: 'rgba(239,68,68,0.14)',   dot: '#ef4444' },
+  'Financial':     { text: '#0369a1', bg: 'rgba(14,165,233,0.14)',  dot: '#0ea5e9' },
+  'International': { text: '#0f766e', bg: 'rgba(0,161,156,0.14)',   dot: '#0d9488' },
+  'Other':         { text: '#475569', bg: 'rgba(107,114,128,0.14)', dot: '#6b7280' },
 };
 const CHART_PAL = ['#00a19c','#0ea5e9','#8b5cf6','#f59e0b','#ef4444','#10b981','#6b7280'];
 const SIG_STYLE = {
-  positive: { Icon: TrendingUp,   color: '#34d399', bg: 'rgba(16,185,129,0.1)'  },
-  neutral:  { Icon: Minus,        color: '#fbbf24', bg: 'rgba(245,158,11,0.1)'  },
-  negative: { Icon: TrendingDown, color: '#f87171', bg: 'rgba(239,68,68,0.1)'   },
-  unknown:  { Icon: Minus,        color: '#9ca3af', bg: 'rgba(107,114,128,0.1)' },
+  positive: { Icon: TrendingUp,   color: '#047857', bg: 'rgba(16,185,129,0.12)' },
+  neutral:  { Icon: Minus,        color: '#b45309', bg: 'rgba(245,158,11,0.12)' },
+  negative: { Icon: TrendingDown, color: '#b91c1c', bg: 'rgba(239,68,68,0.12)'  },
+  unknown:  { Icon: Minus,        color: '#475569', bg: 'rgba(107,114,128,0.12)'},
 };
 
 // ── Category rules (data-driven, priority = array order) ───────────────────
@@ -65,7 +66,7 @@ const fmtDate   = (d, showYear = true) => {
   if (!d) return '';
   return d.toLocaleDateString('en-MY', { day:'numeric', month:'short', ...(showYear ? { year:'numeric' } : {}) });
 };
-const scoreColor = (s) => s >= 70 ? '#34d399' : s >= 50 ? '#fbbf24' : '#f87171';
+const scoreColor = (s) => s >= 70 ? '#047857' : s >= 50 ? '#b45309' : '#b91c1c';
 
 const TOPIC_KW = {
   'Gas/LNG':   ['gas','lng','pipeline','upstream'],
@@ -198,10 +199,10 @@ Return this exact schema:
 const ChartTip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background:'rgba(5,12,26,0.97)', border:'1px solid rgba(255,255,255,0.1)', borderRadius:10, padding:'8px 12px', fontSize:12 }}>
-      {label && <div style={{ color:'#9ca3af', marginBottom:4 }}>{label}</div>}
+    <div style={{ background:'rgba(255,255,255,0.98)', border:'1px solid rgba(15,23,42,0.12)', borderRadius:10, padding:'8px 12px', fontSize:12 }}>
+      {label && <div style={{ color:'#475569', marginBottom:4 }}>{label}</div>}
       {payload.map((p,i) => (
-        <div key={i} style={{ color:p.color||'#e2e8f0', fontWeight:600 }}>{p.name}: {p.value}</div>
+        <div key={i} style={{ color:p.color||'#0f172a', fontWeight:600 }}>{p.name}: {p.value}</div>
       ))}
     </div>
   );
@@ -253,16 +254,16 @@ const TABS = [
 // ── Sidebar (desktop) ──────────────────────────────────────────────────────
 const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
   <aside className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 z-40"
-    style={{ width:220, background:'rgba(4,7,16,0.98)', borderRight:'1px solid rgba(255,255,255,0.06)', backdropFilter:'blur(24px)' }}>
+    style={{ width:220, background:'rgba(255,255,255,0.97)', borderRight:'1px solid rgba(15,23,42,0.08)', backdropFilter:'blur(24px)' }}>
     {/* Logo */}
-    <div className="px-5 py-4 flex items-center gap-2.5" style={{ borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
+    <div className="px-5 py-4 flex items-center gap-2.5" style={{ borderBottom:'1px solid rgba(15,23,42,0.08)' }}>
       <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
         style={{ background:'rgba(0,161,156,0.18)', border:'1px solid rgba(0,161,156,0.3)' }}>
         <Activity size={14} color="#00a19c" />
       </div>
       <div>
         <div className="text-xs font-bold text-white leading-none tracking-wide">PIntel</div>
-        <div className="text-xs mt-0.5" style={{ color:'#4b5563' }}>Intel Dashboard</div>
+        <div className="text-xs mt-0.5" style={{ color:'#64748b' }}>Intel Dashboard</div>
       </div>
     </div>
 
@@ -273,9 +274,9 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
         return (
           <button key={id} onClick={() => setActiveTab(id)}
             className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm transition-all text-left ${
-              active ? 'tab-active font-medium' : 'font-normal hover:bg-white/5'
+              active ? 'tab-active font-medium' : 'font-normal hover:bg-slate-100'
             }`}
-            style={{ color: active ? '#2dd4bf' : '#6b7280' }}>
+            style={{ color: active ? '#0d9488' : '#475569' }}>
             <Icon size={15} />
             <span className="flex-1 truncate">{label}</span>
             {id === 'insights' && insight && !['embedded-fallback','no-api-key','error-fallback'].includes(insight.source) && (
@@ -290,16 +291,16 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
     </nav>
 
     {/* Footer status */}
-    <div className="px-4 py-3" style={{ borderTop:'1px solid rgba(255,255,255,0.06)' }}>
-      <div className="flex items-center gap-2 text-xs mb-1" style={{ color:'#374151' }}>
+    <div className="px-4 py-3" style={{ borderTop:'1px solid rgba(15,23,42,0.08)' }}>
+      <div className="flex items-center gap-2 text-xs mb-1" style={{ color:'#334155' }}>
         <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background:'#34d399' }} />
-          <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background:'#34d399' }} />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background:'#10b981' }} />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5" style={{ background:'#10b981' }} />
         </span>
         Live · 08:00 MYT
       </div>
       {data.length > 0 && (
-        <div className="text-xs" style={{ color:'#1f2937' }}>{data.length} articles</div>
+        <div className="text-xs" style={{ color:'#0f172a' }}>{data.length} articles</div>
       )}
     </div>
   </aside>
@@ -309,8 +310,8 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
 const BottomNav = ({ activeTab, setActiveTab }) => (
   <nav className="lg:hidden fixed bottom-0 left-0 right-0 flex items-center justify-around z-40"
     style={{
-      background:'rgba(4,7,16,0.97)',
-      borderTop:'1px solid rgba(255,255,255,0.08)',
+      background:'rgba(255,255,255,0.97)',
+      borderTop:'1px solid rgba(15,23,42,0.08)',
       backdropFilter:'blur(24px)',
       paddingTop:'0.375rem',
       paddingBottom:'max(0.5rem, env(safe-area-inset-bottom))',
@@ -320,7 +321,7 @@ const BottomNav = ({ activeTab, setActiveTab }) => (
       return (
         <button key={id} onClick={() => setActiveTab(id)}
           className="flex flex-col items-center gap-0.5 px-3 transition-all"
-          style={{ color: active ? '#2dd4bf' : '#4b5563' }}>
+          style={{ color: active ? '#0d9488' : '#475569' }}>
           <Icon size={19} />
           <span className="text-xs" style={{ fontSize:10 }}>
             {label === 'AI Insights' ? 'AI' : label}
@@ -473,23 +474,23 @@ export default function MarketIntelDashboard() {
   // ── Loading / error screens ────────────────────────────────────────────
   if (loading) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4"
-      style={{ background:'linear-gradient(135deg,#040710 0%,#06101e 100%)' }}>
+      style={{ background:'linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%)' }}>
       <div className="w-12 h-12 rounded-full border-2 animate-spin"
         style={{ borderColor:'rgba(0,161,156,0.2)', borderTopColor:'#00a19c' }} />
-      <p className="text-sm" style={{ color:'#4b5563' }}>Loading Market Intelligence Data…</p>
+      <p className="text-sm" style={{ color:'#64748b' }}>Loading Market Intelligence Data…</p>
     </div>
   );
 
   if (error) return (
     <div className="min-h-screen flex items-center justify-center p-4"
-      style={{ background:'linear-gradient(135deg,#040710 0%,#06101e 100%)' }}>
+      style={{ background:'linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%)' }}>
       <div className="glass-card p-8 text-center max-w-sm w-full">
         <AlertCircle size={36} color="#f87171" className="mx-auto mb-3" />
         <p className="text-white font-semibold mb-1">Failed to load data</p>
         <p className="text-gray-400 text-sm mb-5">{error}</p>
         <button onClick={fetchData}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium mx-auto"
-          style={{ background:'rgba(0,161,156,0.15)', color:'#2dd4bf', border:'1px solid rgba(0,161,156,0.3)' }}>
+          style={{ background:'rgba(0,161,156,0.15)', color:'#0d9488', border:'1px solid rgba(0,161,156,0.3)' }}>
           <RefreshCw size={14}/> Retry
         </button>
       </div>
@@ -501,7 +502,7 @@ export default function MarketIntelDashboard() {
   // ── Render ────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen font-sans"
-      style={{ background:'linear-gradient(160deg,#040710 0%,#060e1c 60%,#040710 100%)' }}>
+      style={{ background:'linear-gradient(160deg,#f8fafc 0%,#eef2f7 60%,#f8fafc 100%)' }}>
 
       {/* Ambient orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none" aria-hidden>
@@ -519,7 +520,7 @@ export default function MarketIntelDashboard() {
 
         {/* ── Sticky header ── */}
         <header className="sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-6 py-3"
-          style={{ background:'rgba(4,7,16,0.92)', borderBottom:'1px solid rgba(255,255,255,0.05)', backdropFilter:'blur(20px)' }}>
+          style={{ background:'rgba(255,255,255,0.9)', borderBottom:'1px solid rgba(15,23,42,0.08)', backdropFilter:'blur(20px)' }}>
 
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2 mr-1">
@@ -535,7 +536,7 @@ export default function MarketIntelDashboard() {
             <h1 className="text-sm font-semibold text-white truncate">
               {TABS.find(t => t.id === activeTab)?.label}
             </h1>
-            {dateRange && <p className="text-xs hidden sm:block" style={{ color:'#374151' }}>{dateRange}</p>}
+            {dateRange && <p className="text-xs hidden sm:block" style={{ color:'#334155' }}>{dateRange}</p>}
           </div>
 
           {/* Live badge */}
@@ -549,14 +550,14 @@ export default function MarketIntelDashboard() {
 
           {/* Last fetched */}
           {lastUpdated && (
-            <span className="text-xs hidden sm:flex items-center gap-1" style={{ color:'#374151' }}>
+            <span className="text-xs hidden sm:flex items-center gap-1" style={{ color:'#334155' }}>
               <Clock size={11}/>{lastUpdated.toLocaleTimeString('en-MY',{hour:'2-digit',minute:'2-digit'})}
             </span>
           )}
 
           <button onClick={fetchData}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all hover:bg-white/10"
-            style={{ background:'rgba(255,255,255,0.04)', color:'#6b7280', border:'1px solid rgba(255,255,255,0.07)' }}>
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all hover:bg-slate-100"
+            style={{ background:'#ffffff', color:'#475569', border:'1px solid rgba(15,23,42,0.1)' }}>
             <RefreshCw size={11}/> Refresh
           </button>
         </header>
@@ -589,7 +590,7 @@ export default function MarketIntelDashboard() {
                       <div className="flex items-center gap-2 mb-4">
                         <Calendar size={13} color="#00a19c" />
                         <h2 className="text-sm font-semibold text-gray-200">Daily Article Volume</h2>
-                        <span className="ml-auto text-xs" style={{ color:'#374151' }}>{timelineData.length} days</span>
+                        <span className="ml-auto text-xs" style={{ color:'#334155' }}>{timelineData.length} days</span>
                       </div>
                       <ResponsiveContainer width="100%" height={200}>
                         <AreaChart data={timelineData} margin={{ top:4, right:4, left:-28, bottom:0 }}>
@@ -599,9 +600,9 @@ export default function MarketIntelDashboard() {
                               <stop offset="95%" stopColor="#00a19c" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                          <XAxis dataKey="label" stroke="#1f2937" tick={{ fontSize:10, fill:'#4b5563' }}/>
-                          <YAxis stroke="#1f2937" tick={{ fontSize:10, fill:'#4b5563' }} allowDecimals={false}/>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(15,23,42,0.08)"/>
+                          <XAxis dataKey="label" stroke="rgba(15,23,42,0.2)" tick={{ fontSize:10, fill:'#475569' }}/>
+                          <YAxis stroke="rgba(15,23,42,0.2)" tick={{ fontSize:10, fill:'#475569' }} allowDecimals={false}/>
                           <RTooltip content={<ChartTip/>}/>
                           <Area type="monotone" dataKey="count" name="Articles"
                             stroke="#00a19c" strokeWidth={2} fill="url(#tealGrad)"/>
@@ -614,7 +615,7 @@ export default function MarketIntelDashboard() {
                       <div className="glass-card p-5 lg:col-span-2 flex flex-col items-center justify-center gap-3">
                         <div className="w-8 h-8 rounded-full border-2 animate-spin"
                           style={{ borderColor:'rgba(0,161,156,0.2)', borderTopColor:'#00a19c' }}/>
-                        <p className="text-xs" style={{ color:'#4b5563' }}>Generating AI insights…</p>
+                        <p className="text-xs" style={{ color:'#64748b' }}>Generating AI insights…</p>
                       </div>
                     ) : insight ? (
                       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
@@ -626,7 +627,7 @@ export default function MarketIntelDashboard() {
                             <Brain size={13} color="#00a19c"/>
                             <span className="text-sm font-semibold text-gray-200">AI Sentiment</span>
                           </div>
-                          <span className="text-xs" style={{ color:'#374151' }}>Daily</span>
+                          <span className="text-xs" style={{ color:'#334155' }}>Daily</span>
                         </div>
 
                         <div className="flex items-end gap-3 mb-2">
@@ -635,7 +636,7 @@ export default function MarketIntelDashboard() {
                             {insight.overall_score}
                           </span>
                           <div className="pb-1">
-                            <div className="text-xs" style={{ color:'#374151' }}>/100</div>
+                            <div className="text-xs" style={{ color:'#334155' }}>/100</div>
                             <div className="text-xs font-medium text-white capitalize mt-0.5">
                               {insight.overall_sentiment?.replace(/_/g,' ')}
                             </div>
@@ -645,13 +646,13 @@ export default function MarketIntelDashboard() {
                         <ScoreBar score={insight.overall_score} color={scoreColor(insight.overall_score)} delay={0.25}/>
 
                         <p className="text-xs leading-relaxed mt-3 flex-1"
-                          style={{ color:'#6b7280', display:'-webkit-box', WebkitLineClamp:3, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
+                          style={{ color:'#475569', display:'-webkit-box', WebkitLineClamp:3, WebkitBoxOrient:'vertical', overflow:'hidden' }}>
                           {insight.summary}
                         </p>
 
                         {isFallback && (
                           <span className="text-xs mt-2 px-2 py-0.5 rounded-full self-start"
-                            style={{ background:'rgba(245,158,11,0.1)', color:'#fbbf24' }}>
+                            style={{ background:'rgba(245,158,11,0.12)', color:'#b45309' }}>
                             fallback data
                           </span>
                         )}
@@ -690,9 +691,9 @@ export default function MarketIntelDashboard() {
                           return (
                             <div key={name} className="flex items-center gap-2 text-xs">
                               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background:c.dot }}/>
-                              <span className="flex-1 truncate" style={{ color:'#6b7280' }}>{name}</span>
+                              <span className="flex-1 truncate" style={{ color:'#475569' }}>{name}</span>
                               <span className="font-semibold tabular-nums" style={{ color:c.text }}>{pct}%</span>
-                              <span className="tabular-nums w-5 text-right" style={{ color:'#374151' }}>{value}</span>
+                              <span className="tabular-nums w-5 text-right" style={{ color:'#334155' }}>{value}</span>
                             </div>
                           );
                         })}
@@ -712,7 +713,7 @@ export default function MarketIntelDashboard() {
                           return (
                             <div key={name}>
                               <div className="flex items-center justify-between text-xs mb-1">
-                                <span style={{ color:'#9ca3af' }}>{name}</span>
+                                <span style={{ color:'#475569' }}>{name}</span>
                                 <span className="font-semibold tabular-nums" style={{ color }}>{value}</span>
                               </div>
                               <ScoreBar score={Math.round(value/maxV*100)} color={color} delay={i*0.06+0.1}/>
@@ -727,7 +728,7 @@ export default function MarketIntelDashboard() {
                       <div className="flex items-center gap-2 mb-4">
                         <Newspaper size={13} color="#f59e0b"/>
                         <h2 className="text-sm font-semibold text-gray-200">Latest</h2>
-                        <span className="ml-auto text-xs" style={{ color:'#374151' }}>{data.length} total</span>
+                        <span className="ml-auto text-xs" style={{ color:'#334155' }}>{data.length} total</span>
                       </div>
                       <div className="space-y-3">
                         {sortedData.slice(0,5).map((item,i)=>(
@@ -737,12 +738,12 @@ export default function MarketIntelDashboard() {
                               <p className="text-xs text-gray-300 leading-snug mt-1 group-hover:text-white transition-colors line-clamp-2">
                                 {item.title}
                               </p>
-                              <p className="text-xs mt-0.5" style={{ color:'#374151' }}>
+                              <p className="text-xs mt-0.5" style={{ color:'#334155' }}>
                                 {fmtDate(item.published, false)}
                               </p>
                             </div>
                             <a href={item.url} target="_blank" rel="noopener noreferrer"
-                              className="flex-shrink-0 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10"
+                              className="flex-shrink-0 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-slate-100"
                               onClick={e=>e.stopPropagation()}>
                               <ExternalLink size={11} color="#4b5563"/>
                             </a>
@@ -764,10 +765,10 @@ export default function MarketIntelDashboard() {
                     </div>
                     <ResponsiveContainer width="100%" height={260}>
                       <BarChart data={pieData} margin={{ top:4, right:8, left:-24, bottom:48 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                        <XAxis dataKey="name" stroke="#1f2937" tick={{ fontSize:10, fill:'#4b5563' }}
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(15,23,42,0.08)"/>
+                        <XAxis dataKey="name" stroke="rgba(15,23,42,0.2)" tick={{ fontSize:10, fill:'#475569' }}
                           angle={-35} textAnchor="end" interval={0}/>
-                        <YAxis stroke="#1f2937" tick={{ fontSize:10, fill:'#4b5563' }} allowDecimals={false}/>
+                        <YAxis stroke="rgba(15,23,42,0.2)" tick={{ fontSize:10, fill:'#475569' }} allowDecimals={false}/>
                         <RTooltip content={<ChartTip/>}/>
                         <Bar dataKey="value" name="Articles" radius={[4,4,0,0]}>
                           {pieData.map((e,i)=><Cell key={i} fill={(CAT[e.name]||CAT['Other']).dot}/>)}
@@ -783,9 +784,9 @@ export default function MarketIntelDashboard() {
                     </div>
                     <ResponsiveContainer width="100%" height={270}>
                       <RadarChart data={topicCounts}>
-                        <PolarGrid stroke="rgba(255,255,255,0.05)"/>
-                        <PolarAngleAxis dataKey="name" tick={{ fontSize:11, fill:'#9ca3af' }}/>
-                        <PolarRadiusAxis tick={{ fontSize:9, fill:'#4b5563' }} axisLine={false}/>
+                        <PolarGrid stroke="rgba(15,23,42,0.08)"/>
+                        <PolarAngleAxis dataKey="name" tick={{ fontSize:11, fill:'#475569' }}/>
+                        <PolarRadiusAxis tick={{ fontSize:9, fill:'#475569' }} axisLine={false}/>
                         <Radar name="Mentions" dataKey="value"
                           stroke="#00a19c" fill="#00a19c" fillOpacity={0.15} strokeWidth={1.5}/>
                         <RTooltip content={<ChartTip/>}/>
@@ -808,7 +809,7 @@ export default function MarketIntelDashboard() {
                           transition={{ delay:i*0.06 }}
                           className="glass-card p-4">
                           <div className="text-3xl font-light mb-1" style={{ color }}>{value}</div>
-                          <div className="text-xs font-medium mb-1" style={{ color:'#6b7280' }}>{name}</div>
+                          <div className="text-xs font-medium mb-1" style={{ color:'#475569' }}>{name}</div>
                           <ScoreBar score={Math.round(value/maxV*100)} color={color} delay={i*0.06+0.2}/>
                         </motion.div>
                       );
@@ -823,10 +824,10 @@ export default function MarketIntelDashboard() {
                     <ResponsiveContainer width="100%" height={220}>
                       <BarChart data={topicCounts} layout="vertical"
                         margin={{ top:0, right:12, left:60, bottom:0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
-                        <XAxis type="number" stroke="#1f2937" tick={{ fontSize:10, fill:'#4b5563' }} allowDecimals={false}/>
-                        <YAxis type="category" dataKey="name" stroke="#1f2937"
-                          tick={{ fontSize:11, fill:'#9ca3af' }} width={56}/>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(15,23,42,0.08)" horizontal={false}/>
+                        <XAxis type="number" stroke="rgba(15,23,42,0.2)" tick={{ fontSize:10, fill:'#475569' }} allowDecimals={false}/>
+                        <YAxis type="category" dataKey="name" stroke="rgba(15,23,42,0.2)"
+                          tick={{ fontSize:11, fill:'#475569' }} width={56}/>
                         <RTooltip content={<ChartTip/>}/>
                         <Bar dataKey="value" name="Mentions" radius={[0,4,4,0]}>
                           {topicCounts.map((_,i)=><Cell key={i} fill={CHART_PAL[i%CHART_PAL.length]}/>)}
@@ -845,8 +846,8 @@ export default function MarketIntelDashboard() {
                       AI-Powered Analysis
                     </p>
                     <h2 className="text-2xl sm:text-3xl font-light text-white">Strategic Sentiment</h2>
-                    <p className="text-xs mt-2 max-w-sm mx-auto" style={{ color:'#374151' }}>
-                      Daily by <span style={{ color:'#2dd4bf' }}>{GROQ_MODEL}</span> · {data.length} articles
+                    <p className="text-xs mt-2 max-w-sm mx-auto" style={{ color:'#334155' }}>
+                      Daily by <span style={{ color:'#0d9488' }}>{GROQ_MODEL}</span> · {data.length} articles
                     </p>
                   </div>
 
@@ -854,10 +855,10 @@ export default function MarketIntelDashboard() {
                     <div className="glass-card p-12 flex flex-col items-center gap-4">
                       <div className="w-10 h-10 rounded-full border-2 animate-spin"
                         style={{ borderColor:'rgba(0,161,156,0.2)', borderTopColor:'#00a19c' }}/>
-                      <p className="text-sm" style={{ color:'#4b5563' }}>
-                        Streaming from <span style={{ color:'#2dd4bf' }}>{GROQ_MODEL}</span>…
+                      <p className="text-sm" style={{ color:'#64748b' }}>
+                        Streaming from <span style={{ color:'#0d9488' }}>{GROQ_MODEL}</span>…
                       </p>
-                      <p className="text-xs" style={{ color:'#1f2937' }}>Auto-retries up to 3× on timeout</p>
+                      <p className="text-xs" style={{ color:'#0f172a' }}>Auto-retries up to 3× on timeout</p>
                     </div>
                   ) : insight ? (
                     <>
@@ -871,7 +872,7 @@ export default function MarketIntelDashboard() {
                               <Brain size={17} color="#00a19c"/>
                             </div>
                             <div>
-                              <div className="text-xs uppercase tracking-wide font-medium" style={{ color:'#4b5563' }}>
+                              <div className="text-xs uppercase tracking-wide font-medium" style={{ color:'#64748b' }}>
                                 Overall Sentiment
                               </div>
                               <div className="text-sm font-semibold text-white mt-0.5 capitalize">
@@ -884,7 +885,7 @@ export default function MarketIntelDashboard() {
                               style={{ color:scoreColor(insight.overall_score) }}>
                               {insight.overall_score}
                             </span>
-                            <span className="text-sm pb-1" style={{ color:'#374151' }}>/100</span>
+                            <span className="text-sm pb-1" style={{ color:'#334155' }}>/100</span>
                           </div>
                         </div>
 
@@ -897,12 +898,12 @@ export default function MarketIntelDashboard() {
 
                         <div className="flex items-center gap-2 flex-wrap text-xs">
                           <span className="px-2.5 py-1 rounded-full font-medium"
-                            style={{ background:'rgba(0,161,156,0.1)', color:'#2dd4bf' }}>
+                            style={{ background:'rgba(0,161,156,0.1)', color:'#0d9488' }}>
                             {insight.model}
                           </span>
                           {isFallback ? (
                             <span className="px-2.5 py-1 rounded-full"
-                              style={{ background:'rgba(245,158,11,0.1)', color:'#fbbf24' }}>
+                              style={{ background:'rgba(245,158,11,0.12)', color:'#b45309' }}>
                               {insight.source === 'no-api-key'
                                 ? 'Set REACT_APP_GROQ_API_KEY for live analysis'
                                 : insight.error
@@ -911,13 +912,13 @@ export default function MarketIntelDashboard() {
                             </span>
                           ) : (
                             <span className="px-2.5 py-1 rounded-full"
-                              style={{ background:'rgba(16,185,129,0.1)', color:'#34d399' }}>
+                              style={{ background:'rgba(16,185,129,0.12)', color:'#047857' }}>
                               Generated {new Date(insight.generated_at).toLocaleDateString('en-MY')}
                             </span>
                           )}
                           <button onClick={() => loadInsight(true)}
-                            className="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-all hover:bg-white/10"
-                            style={{ background:'rgba(255,255,255,0.04)', color:'#4b5563', border:'1px solid rgba(255,255,255,0.06)' }}>
+                            className="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full transition-all hover:bg-slate-100"
+                            style={{ background:'#ffffff', color:'#64748b', border:'1px solid rgba(15,23,42,0.08)' }}>
                             <RefreshCw size={10}/> Regenerate
                           </button>
                         </div>
@@ -947,10 +948,10 @@ export default function MarketIntelDashboard() {
                               <motion.div initial={false}
                                 animate={{ height:open?'auto':0, opacity:open?1:0 }}
                                 transition={{ duration:0.22 }} style={{ overflow:'hidden' }}>
-                                <p className="text-xs leading-relaxed mt-3" style={{ color:'#6b7280' }}>{s.analysis}</p>
+                                <p className="text-xs leading-relaxed mt-3" style={{ color:'#475569' }}>{s.analysis}</p>
                               </motion.div>
                               <div className="flex items-center gap-1 text-xs mt-2"
-                                style={{ color:open?'#6b7280':'#1f2937' }}>
+                                style={{ color:open?'#475569':'#0f172a' }}>
                                 {open?<><ChevronUp size={11}/> collapse</>:<><ChevronDown size={11}/> expand</>}
                               </div>
                             </motion.div>
@@ -973,9 +974,9 @@ export default function MarketIntelDashboard() {
                       )}
                     </>
                   ) : (
-                    <div className="glass-card p-12 text-center text-sm" style={{ color:'#4b5563' }}>
+                    <div className="glass-card p-12 text-center text-sm" style={{ color:'#64748b' }}>
                       No insight loaded.{' '}
-                      <button onClick={()=>loadInsight(true)} className="underline" style={{ color:'#2dd4bf' }}>
+                      <button onClick={()=>loadInsight(true)} className="underline" style={{ color:'#0d9488' }}>
                         Generate now
                       </button>
                     </div>
@@ -993,17 +994,17 @@ export default function MarketIntelDashboard() {
                       <input type="text" value={search} onChange={e=>setSearch(e.target.value)}
                         placeholder="Search articles…"
                         className="w-full pl-8 pr-3 py-2.5 rounded-xl text-sm focus:outline-none transition-all"
-                        style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', color:'#e2e8f0' }}/>
+                        style={{ background:'#ffffff', border:'1px solid rgba(15,23,42,0.1)', color:'#0f172a' }}/>
                     </div>
                     <select value={selectedCat} onChange={e=>setSelectedCat(e.target.value)}
                       className="px-3 py-2.5 rounded-xl text-sm focus:outline-none"
-                      style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', color:'#9ca3af' }}>
+                      style={{ background:'#ffffff', border:'1px solid rgba(15,23,42,0.1)', color:'#475569' }}>
                       <option value="all">All Categories</option>
                       {Object.keys(CAT).map(c=><option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
 
-                  <p className="text-xs pl-1" style={{ color:'#374151' }}>{feedData.length} articles</p>
+                  <p className="text-xs pl-1" style={{ color:'#334155' }}>{feedData.length} articles</p>
 
                   <div className="space-y-2 max-h-[65vh] overflow-y-auto pr-0.5">
                     {feedData.map((item,i)=>(
@@ -1015,14 +1016,14 @@ export default function MarketIntelDashboard() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                               <CatBadge cat={item.category}/>
-                              <span className="text-xs flex items-center gap-1" style={{ color:'#374151' }}>
+                              <span className="text-xs flex items-center gap-1" style={{ color:'#334155' }}>
                                 <Calendar size={10}/>{fmtDate(item.published)}
                               </span>
                             </div>
                             <p className="text-sm text-gray-200 leading-snug">{item.title}</p>
                           </div>
                           <a href={item.url} target="_blank" rel="noopener noreferrer"
-                            className="flex-shrink-0 p-2 rounded-lg transition-all hover:bg-white/10"
+                            className="flex-shrink-0 p-2 rounded-lg transition-all hover:bg-slate-100"
                             onClick={e=>e.stopPropagation()} title="Open article">
                             <ExternalLink size={13} color="#374151"/>
                           </a>
@@ -1030,7 +1031,7 @@ export default function MarketIntelDashboard() {
                       </motion.div>
                     ))}
                     {feedData.length === 0 && (
-                      <div className="text-center py-16 text-sm" style={{ color:'#374151' }}>
+                      <div className="text-center py-16 text-sm" style={{ color:'#334155' }}>
                         No articles match your filters.
                       </div>
                     )}
