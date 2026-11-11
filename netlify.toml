@@ -3,6 +3,7 @@
   publish = "build"
 
 [build.environment]
+  GENERATE_SOURCEMAP = "false"
   NODE_VERSION = "18"
 
 [[redirects]]

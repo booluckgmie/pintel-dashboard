@@ -64,7 +64,7 @@ const TOPIC_KW = {
   'Gas/LNG':   ['gas','lng','pipeline','upstream'],
   'Renewable': ['solar','hydrogen','green','renewable','ev','electric'],
   'Chemicals': ['chemical','polymer','butac','pchem'],
-  'Malaysia':  ['malaysia','malaysian','petronas'],
+  'Malaysia':  ['malaysia','malaysian'],
   'Finance':   ['market','stock','investment','epf','dividend'],
   'Global':    ['brazil','australia','georgia','international'],
 };
@@ -78,10 +78,10 @@ const FALLBACK_BASE = {
   source: 'embedded-fallback',
   overall_sentiment: 'cautiously_optimistic',
   overall_score: 64,
-  summary: 'PETRONAS sustains its dual mandate of upstream excellence and energy transition acceleration. Recent coverage shows positive momentum in renewables and international expansion, tempered by commodity price volatility and maintenance cycles.',
+  summary: 'The company sustains its dual mandate of upstream excellence and energy transition acceleration. Recent coverage shows positive momentum in renewables and international expansion, tempered by commodity price volatility and maintenance cycles.',
   signals: [
     { dimension: 'Energy Transition', score: 72, direction: 'positive',
-      analysis: 'Hydrogen, solar, and EV coverage signals accelerating clean energy pivot with PETRONAS green portfolio on track.' },
+      analysis: 'Hydrogen, solar, and EV coverage signals accelerating clean energy pivot with the green portfolio on track.' },
     { dimension: 'Market Position',   score: 60, direction: 'neutral',
       analysis: 'Core gas/LNG business remains resilient while the chemical segment faces scheduled maintenance headwinds.' },
     { dimension: 'International',     score: 68, direction: 'positive',
@@ -174,7 +174,7 @@ async function generateInsight(articles) {
     .join('\n');
 
   const prompt =
-`Analyse PETRONAS market intelligence and return ONLY valid JSON.
+`Analyse the market intelligence for a single company from the news below and return ONLY valid JSON. Refer to the company only as "the company" and never use its name.
 
 Data: ${articles.length} articles | ${range} | ${catSummary}
 
@@ -254,7 +254,7 @@ const Sidebar = ({ activeTab, setActiveTab, data, insight }) => (
         <Activity size={14} color="#00a19c" />
       </div>
       <div>
-        <div className="text-xs font-bold text-white leading-none tracking-wide">Market Intel</div>
+        <div className="text-xs font-bold text-white leading-none tracking-wide">PIntel</div>
         <div className="text-xs mt-0.5" style={{ color:'#4b5563' }}>Intel Dashboard</div>
       </div>
     </div>
@@ -325,7 +325,7 @@ const BottomNav = ({ activeTab, setActiveTab }) => (
 );
 
 // ── Main dashboard ─────────────────────────────────────────────────────────
-export default function PetronasIntelDashboard() {
+export default function MarketIntelDashboard() {
   const [data,           setData]           = useState([]);
   const [loading,        setLoading]        = useState(true);
   const [error,          setError]          = useState(null);
@@ -507,7 +507,7 @@ export default function PetronasIntelDashboard() {
               style={{ background:'rgba(0,161,156,0.18)' }}>
               <Activity size={12} color="#00a19c" />
             </div>
-            <span className="text-xs font-bold text-white">Market Intel</span>
+            <span className="text-xs font-bold text-white">PIntel</span>
           </div>
 
           {/* Page title */}
@@ -599,7 +599,7 @@ export default function PetronasIntelDashboard() {
                     ) : insight ? (
                       <motion.div initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
                         transition={{ delay:0.15 }}
-                        className="glass-card p-5 lg:col-span-2 flex flex-col cursor-pointer hover:border-petronas-500/30 transition-all"
+                        className="glass-card p-5 lg:col-span-2 flex flex-col cursor-pointer hover:border-brand-500/30 transition-all"
                         onClick={() => setActiveTab('insights')}>
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-2">

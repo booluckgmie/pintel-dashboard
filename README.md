@@ -1,6 +1,6 @@
 # PIntel Market Dashboard
 
-A real-time market intelligence dashboard tracking PETRONAS news and announcements, powered by AI-generated daily insights.
+A real-time market intelligence dashboard tracking a company's news and announcements, powered by AI-generated daily insights.
 
 **Live:** https://pintelmarket.netlify.app/
 
@@ -8,7 +8,7 @@ A real-time market intelligence dashboard tracking PETRONAS news and announcemen
 
 ## What It Does
 
-PIntel aggregates daily PETRONAS-related news from a curated feed, categorises each article automatically, and uses a large language model (Groq `llama-3.3-70b-versatile`) to produce a structured market intelligence briefing every morning. The result is a single-page dashboard where analysts can quickly scan sentiment, sector activity, and key signals without reading dozens of articles manually.
+PIntel aggregates daily company-related news from a curated feed, categorises each article automatically, and uses a large language model (Groq `llama-3.3-70b-versatile`) to produce a structured market intelligence briefing every morning. The result is a single-page dashboard where analysts can quickly scan sentiment, sector activity, and key signals without reading dozens of articles manually.
 
 ---
 
@@ -23,7 +23,7 @@ PIntel aggregates daily PETRONAS-related news from a curated feed, categorises e
 | **Topic tracking** | Keyword extraction surfacing the most-discussed themes |
 | **Article feed** | Full feed with category filter + keyword search |
 | **Mobile-first layout** | Sidebar navigation on desktop, bottom tab bar on mobile with safe-area support |
-| **Glassmorphism UI** | Dark theme with PETRONAS teal (#00a19c) accent, framer-motion animations, shimmer loading states |
+| **Glassmorphism UI** | Dark theme with teal (#00a19c) accent, framer-motion animations, shimmer loading states |
 
 ---
 
