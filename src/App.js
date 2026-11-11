@@ -16,7 +16,14 @@ import {
 import Papa from 'papaparse';
 
 // ── Config ─────────────────────────────────────────────────────────────────
-const DATA_URL   = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/marketGAlerts2025.csv';
+// Try each source in order; first successful fetch wins.
+// jsDelivr is a CDN mirror of GitHub — works where raw.githubusercontent.com is blocked.
+const DATA_SOURCES = [
+  'https://cdn.jsdelivr.net/gh/booluckgmie/sharecode@master/marketIntel/marketGAlerts2025.csv',
+  'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/marketGAlerts2025.csv',
+  'https://gitcdn.link/cdn/booluckgmie/sharecode/master/marketIntel/marketGAlerts2025.csv',
+  'https://corsproxy.io/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbooluckgmie%2Fsharecode%2Frefs%2Fheads%2Fmaster%2FmarketIntel%2FmarketGAlerts2025.csv',
+];
 const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const GROQ_KEY   = process.env.REACT_APP_GROQ_API_KEY || '';
@@ -342,36 +349,49 @@ export default function MarketIntelDashboard() {
   // scroll to top on tab switch (mobile UX)
   useEffect(() => { window.scrollTo({ top:0, behavior:'smooth' }); }, [activeTab]);
 
-  // ── Fetch CSV — categorize + topics computed once at parse time ──────────
+  // ── Fetch CSV — tries sources in order; falls back on 403 / network errors ─
   const fetchData = useCallback(async () => {
     setLoading(true); setError(null);
-    try {
-      const resp = await fetch(DATA_URL);
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const csv = await resp.text();
-      Papa.parse(csv, {
-        header: true,
-        skipEmptyLines: true,
-        complete: ({ data: rows }) => {
-          const parsed = rows
-            .map(r => {
-              const title = String(r.title || '').trim();
-              return {
-                id:        String(r.id  || '').trim(),
-                title,
-                published: parseDate(r.published),
-                url:       String(r.url || '').trim(),
-                category:  categorize(title),
-                topics:    getTopics(title),          // pre-computed once
-              };
-            })
-            .filter(r => r.title && r.published);
-          setData(parsed);
-          setLastUpdated(new Date());
-          setLoading(false);
-        },
-      });
-    } catch (e) { setError(e.message); setLoading(false); }
+    let csv = null;
+    const errors = [];
+    for (const url of DATA_SOURCES) {
+      try {
+        const resp = await fetch(url, { cache: 'no-store' });
+        if (!resp.ok) { errors.push(`${new URL(url).hostname}: HTTP ${resp.status}`); continue; }
+        const text = await resp.text();
+        if (text && text.trim().length > 0) { csv = text; break; }
+        errors.push(`${new URL(url).hostname}: empty response`);
+      } catch (e) {
+        errors.push(`${new URL(url).hostname}: ${e.message}`);
+      }
+    }
+    if (!csv) {
+      setError(`Failed to load data from all sources (${errors.join(' | ')})`);
+      setLoading(false);
+      return;
+    }
+    Papa.parse(csv, {
+      header: true,
+      skipEmptyLines: true,
+      complete: ({ data: rows }) => {
+        const parsed = rows
+          .map(r => {
+            const title = String(r.title || '').trim();
+            return {
+              id:        String(r.id  || '').trim(),
+              title,
+              published: parseDate(r.published),
+              url:       String(r.url || '').trim(),
+              category:  categorize(title),
+              topics:    getTopics(title),          // pre-computed once
+            };
+          })
+          .filter(r => r.title && r.published);
+        setData(parsed);
+        setLastUpdated(new Date());
+        setLoading(false);
+      },
+    });
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
