@@ -16,7 +16,7 @@ import {
 import Papa from 'papaparse';
 
 // ── Config ─────────────────────────────────────────────────────────────────
-const DATA_URL   = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/petronasGAlerts2025.csv';
+const DATA_URL   = 'https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/marketGAlerts2025.csv';
 const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const GROQ_KEY   = process.env.REACT_APP_GROQ_API_KEY || '';

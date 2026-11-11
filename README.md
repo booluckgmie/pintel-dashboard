@@ -30,7 +30,7 @@ PIntel aggregates daily PETRONAS-related news from a curated feed, categorises e
 ## Data Source
 
 ```
-https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/petronasGAlerts2025.csv
+https://raw.githubusercontent.com/booluckgmie/sharecode/refs/heads/master/marketIntel/marketGAlerts2025.csv
 ```
 
 The CSV is refreshed every day at 00:00 UTC (08:00 MYT) by a scheduled GitHub Actions workflow in the `booluckgmie/sharecode` repository.
